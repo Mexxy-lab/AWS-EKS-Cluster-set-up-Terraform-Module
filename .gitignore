@@ -1,0 +1,42 @@
+# Local .terraform directories
+**/.terraform/*
+!.terraform/*.lock.hcl
+
+# Terraform state files
+*.tfstate
+*.tfstate.backup
+
+# Crash log files
+crash.log
+*.tfplan
+
+# Sensitive variable files
+*.tfvars
+*.tfvars.json
+
+# Ignore override files as they are usually local
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore plan output
+plan.out
+
+# .terraform.lock.hcl is recommended to be committed, so don’t ignore it:
+# https://developer.hashicorp.com/terraform/cli/config/config-file#dependency-lock-file
+# If you’re using it for experimentation only, uncomment the following line:
+# .terraform.lock.hcl
+
+# VSCode settings
+.vscode/
+
+# Mac system files
+.DS_Store
+
+# Node.js artifacts (if you include any frontend or scripts)
+node_modules/
+
+# Python cache (if you use Python scripts)
+__pycache__/
+*.pyc
