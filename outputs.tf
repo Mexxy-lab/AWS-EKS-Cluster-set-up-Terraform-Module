@@ -23,8 +23,3 @@ output "eks_cluster_endpoint" {
   description = "API server endpoint of the EKS cluster"
   value       = module.eks_cluster.cluster_endpoint
 }
-
-output "eks_cluster_certificate_authority" {
-  description = "Certificate authority data for the EKS cluster"
-  value       = module.eks_cluster.cluster_certificate_authority
-}
