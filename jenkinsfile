@@ -1,0 +1,39 @@
+// Jenkinsfile to deploy the infrastructure
+
+pipeline {
+    agent any
+
+    parameters {
+    choice choices: ['apply', 'destroy'], description: 'Select the Appropriate Action Please', name: 'action'
+       }
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('pumej_aws_access_id')
+        AWS_SECRET_ACCESS_KEY = credentials('pumej_aws_secret_key')
+        AWS_DEFAULT_REGION = "ap-south-1"
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+           git branch: 'main', url: 'https://github.com/Mexxy-lab/AWS-EKS-Cluster-set-up-Terraform-Module.git'
+
+            }
+        }
+
+        stage ("terraform init") {
+            steps {
+                sh "terraform init"
+            }
+        }
+
+        stage ("plan") {
+            steps {
+                sh "terraform plan"
+            }
+        }
+        stage (" Action") {
+            steps {
+                sh 'terraform ${action} --auto-approve'
+           }
+        }
+    }
+}
