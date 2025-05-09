@@ -26,32 +26,6 @@ This Terraform project provisions an Amazon EKS cluster and supporting infrastru
 
 - Update the variables.tf file in root directory with your desired values and run the following commands
 
-module "vpc" {
-  source               = "./modules/vpc"
-  vpc_cidr             = var.vpc_cidr
-  public_subnet_cidrs  = var.public_subnet_cidrs
-  private_subnet_cidrs = var.private_subnet_cidrs
-  availability_zones   = var.availability_zones
-}
-
-module "eks_cluster" {
-  source       = "./modules/eks-cluster"
-  cluster_name = var.eks_cluster_name
-  subnet_ids   = concat(module.vpc.public_subnet_ids, module.vpc.private_subnet_ids)
-  k8s_version  = "1.26"
-}
-
-module "eks_node_group" {
-  source       = "./modules/eks-node-group"
-  cluster_name = module.eks_cluster.cluster_name
-  subnet_ids   = module.vpc.private_subnet_ids
-  policy_arns  = [
-    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
-    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  ]
-}
-
 ### Deployment
 
 - Make sure you have AWS credentials configured (aws configure) and then run:
@@ -69,3 +43,26 @@ terraform
 ```bash
 terraform destroy
 ```
+
+### Why a VPC is required for an EKS cluster-
+
+## Network Isolation
+
+- The VPC provides network-level isolation for Kubernetes resources. It acts as the private network for your cluster.
+
+## Subnet Placement
+
+- Kubernetes nodes (EC2 instances) and control plane components must reside inside private or public subnets.
+- Without subnets inside a VPC, there's no way to place your worker nodes or let the control plane connect to them.
+
+## Security Groups & Routing
+
+- The VPC allows you to define security groups, route tables, NACLs, and Internet Gateways — all necessary for managing:
+
+  - Internal/external traffic
+  - Communication between pods
+  - Access to the internet (e.g., for pulling images)
+
+## EKS Control Plane Requirements
+
+- The EKS control plane needs to be able to communicate with your worker nodes over the network, which requires at least two subnets in different AZs.
