@@ -1,4 +1,4 @@
-# AWS EKS Infrastructure with Terraform Modules
+# AWS EKS Infrastructure with Terraform Modules deployed via a git push
 
 ## Overview
 
@@ -22,6 +22,8 @@ This Terraform project provisions an Amazon EKS cluster and supporting infrastru
 │   ├── eks-cluster/
 │   └── eks-node-group/
 
+Git repo URL - 
+
 ### Usage
 
 - Update the variables.tf file in root directory with your desired values and run the following commands
@@ -33,7 +35,7 @@ This Terraform project provisions an Amazon EKS cluster and supporting infrastru
 ```bash
 terraform init
 terraform plan
-terraform 
+terraform apply
 ```
 
 ### Cleanup

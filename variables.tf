@@ -29,3 +29,8 @@ variable "eks_cluster_name" {
   type        = string
   default     = "pumejeks-cluster"
 }
+
+variable "version" {
+  type    = string
+  default = "1.26"
+}
